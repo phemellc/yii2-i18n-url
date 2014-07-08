@@ -22,7 +22,7 @@ class I18nUrlManager extends UrlManager
     public $languages;
 
     /**
-     * @var bool whether to display the source app language in the URL
+     * @var bool Whether to display the source app language in the URL
      */
     public $displaySourceLanguage = false;
 
