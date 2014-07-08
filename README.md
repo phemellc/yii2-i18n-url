@@ -42,3 +42,9 @@ In your configuration file, add or replace your UrlManager component:
 	...
 ]
 ```
+
+Example of changing the language
+
+```php
+<?= Html::a('Greek', ['site/index', 'lang' => 'gr']); ?>
+```
