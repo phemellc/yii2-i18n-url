@@ -1,0 +1,21 @@
+{
+	"name": "pheme/yii2-i18n-url",
+	"description": "Internationalize your urls",
+	"type": "yii2-extension",
+	"keywords": ["yii2"," i18n"," url"," manager"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Aris Karageorgos",
+			"email": "aris@phe.me"
+		}
+	],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+	"autoload": {
+		"psr-4": {
+			"pheme\\i18n\\": ""
+		}
+	}
+}
