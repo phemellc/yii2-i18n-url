@@ -35,6 +35,8 @@ In your configuration file, add or replace your UrlManager component:
 		//'displaySourceLanguage' => true,
 		//'languageParam' => 'lang',
 		'languages' => ['en', 'gr'],
+		// The keys will become labels on the language switcher widget
+		// 'languages' => ['English' => 'en', 'Ελληνικά' => 'gr']
 		'enablePrettyUrl' => true,
 		'showScriptName' => false,
 		'rules' => [],
@@ -46,5 +48,11 @@ In your configuration file, add or replace your UrlManager component:
 Example of changing the language
 
 ```php
-<?= Html::a('Greek', ['site/index', 'lang' => 'gr']); ?>
+<?= Html::a('Ελληνικά', ['site/index', 'lang' => 'gr']); ?>
+```
+
+Example of using the language switcher
+
+```php
+<?= pheme\i18n\widgets\LanguageSwitcher::widget(); ?>
 ```
