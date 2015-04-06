@@ -36,6 +36,9 @@ class I18nUrlManager extends UrlManager
      */
     public function init()
     {
+        if (is_callable($this->languages)) {
+            $this->languages = call_user_func($this->languages);
+        }
         if (empty($this->languages)) {
             $this->languages = [Yii::$app->language];
         }
