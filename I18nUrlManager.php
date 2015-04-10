@@ -7,8 +7,9 @@
 
 namespace pheme\i18n;
 
-use yii\web\UrlManager;
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\web\UrlManager;
 
 /**
  * @author Aris Karageorgos <aris@phe.me>
@@ -16,10 +17,16 @@ use Yii;
 class I18nUrlManager extends UrlManager
 {
 
+    public static $currentLanguage;
     /**
      * @var array Supported languages
      */
     public $languages;
+
+    /**
+     * @var array Language aliases
+     */
+    public $aliases = [];
 
     /**
      * @var bool Whether to display the source app language in the URL
@@ -55,9 +62,11 @@ class I18nUrlManager extends UrlManager
         if ($this->enablePrettyUrl) {
             $pathInfo = $request->getPathInfo();
             $language = explode('/', $pathInfo)[0];
+            $locale = ArrayHelper::getValue($this->aliases, $language, $language);
             if (in_array($language, $this->languages)) {
                 $request->setPathInfo(substr_replace($pathInfo, '', 0, (strlen($language) + 1)));
-                Yii::$app->language = $language;
+                Yii::$app->language = $locale;
+                static::$currentLanguage = $language;
             }
         } else {
             $params = $request->getQueryParams();
@@ -66,11 +75,13 @@ class I18nUrlManager extends UrlManager
                 $route = '';
             }
             $language = explode('/', $route)[0];
+            $locale = ArrayHelper::getValue($this->aliases, $language, $language);
             if (in_array($language, $this->languages)) {
                 $route = substr_replace($route, '', 0, (strlen($language) + 1));
                 $params[$this->routeParam] = $route;
                 $request->setQueryParams($params);
-                Yii::$app->language = $language;
+                Yii::$app->language = $locale;
+                static::$currentLanguage = $language;
             }
         }
         return parent::parseRequest($request);
@@ -85,13 +96,15 @@ class I18nUrlManager extends UrlManager
     {
         if (array_key_exists($this->languageParam, $params)) {
             $lang = $params[$this->languageParam];
-            if (($lang !== Yii::$app->sourceLanguage || $this->displaySourceLanguage) && !empty($lang)) {
+            if ((($lang !== Yii::$app->sourceLanguage && ArrayHelper::getValue($this->aliases, $lang) !== Yii::$app->sourceLanguage)
+                    || $this->displaySourceLanguage) && !empty($lang)
+            ) {
                 $params[0] = $lang . '/' . ltrim($params[0], '/');
             }
             unset($params[$this->languageParam]);
         } else {
             if (Yii::$app->language !== Yii::$app->sourceLanguage || $this->displaySourceLanguage) {
-                $params[0] = Yii::$app->language . '/' . ltrim($params[0], '/');
+                $params[0] = static::$currentLanguage . '/' . ltrim($params[0], '/');
             }
         }
         return parent::createUrl($params);

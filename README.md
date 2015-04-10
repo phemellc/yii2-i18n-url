@@ -35,6 +35,8 @@ In your configuration file, add or replace your UrlManager component:
 		//'displaySourceLanguage' => true,
 		//'languageParam' => 'lang',
 		'languages' => ['en', 'gr'],
+		'aliases' => [],
+		// 'aliases' => ['en' => 'en-US', 'sr' => 'sr-Latn'],
 		// The keys will become labels on the language switcher widget
 		// 'languages' => ['English' => 'en', 'Ελληνικά' => 'gr']
 		'enablePrettyUrl' => true,
