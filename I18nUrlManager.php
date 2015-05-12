@@ -94,6 +94,8 @@ class I18nUrlManager extends UrlManager
      */
     public function createUrl($params)
     {
+        $params = (array)$params;
+
         if (array_key_exists($this->languageParam, $params)) {
             $lang = $params[$this->languageParam];
             if ((($lang !== Yii::$app->sourceLanguage && ArrayHelper::getValue($this->aliases, $lang) !== Yii::$app->sourceLanguage)
@@ -109,5 +111,4 @@ class I18nUrlManager extends UrlManager
         }
         return parent::createUrl($params);
     }
-
 }
