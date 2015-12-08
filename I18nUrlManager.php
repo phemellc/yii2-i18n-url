@@ -96,19 +96,14 @@ class I18nUrlManager extends UrlManager
     {
         $params = (array)$params;
 
-        if (array_key_exists($this->languageParam, $params)) {
-            $lang = $params[$this->languageParam];
-            if ((($lang !== Yii::$app->sourceLanguage && ArrayHelper::getValue($this->aliases, $lang) !== Yii::$app->sourceLanguage)
-                    || $this->displaySourceLanguage) && !empty($lang)
-            ) {
-                $params[0] = $lang . '/' . ltrim($params[0], '/');
-            }
-            unset($params[$this->languageParam]);
-        } else {
-            if (Yii::$app->language !== Yii::$app->sourceLanguage || $this->displaySourceLanguage) {
-                $params[0] = static::$currentLanguage . '/' . ltrim($params[0], '/');
-            }
+        $lang = ArrayHelper::remove($params, $this->languageParam, static::$currentLanguage);
+        $sourceLanguage = Yii::$app->sourceLanguage;
+        $locale = ($lang) ? ArrayHelper::getValue($this->aliases, $lang, $lang) : $sourceLanguage;
+
+        if (($lang !== $sourceLanguage && $locale !== $sourceLanguage) || $this->displaySourceLanguage) {
+            return '/' . $lang . '/' . ltrim(parent::createUrl($params), '/');
         }
+
         return parent::createUrl($params);
     }
 }
