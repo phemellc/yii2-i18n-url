@@ -16,7 +16,7 @@ php composer.phar require --prefer-dist pheme/yii2-i18n-url "*"
 or add
 
 ```
-"pheme/yii2-i18n-url": "*"
+"pheme/yii2-i18n-url": "dev-master"
 ```
 
 to the require section of your `composer.json` file.
