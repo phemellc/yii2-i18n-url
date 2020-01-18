@@ -37,6 +37,11 @@ class I18nUrlManager extends UrlManager
      * @var string Parameter used to set the language
      */
     public $languageParam = 'lang';
+    
+    /**
+     * @var bool Whether to rewrite the baseUrl in th URL
+     */
+    public $rewriteBaseUrl = false;
 
     /**
      * @inheritdoc
@@ -101,6 +106,11 @@ class I18nUrlManager extends UrlManager
         $locale = ($lang) ? ArrayHelper::getValue($this->aliases, $lang, $lang) : $sourceLanguage;
 
         if (($lang !== $sourceLanguage && $locale !== $sourceLanguage) || $this->displaySourceLanguage) {
+            if ($this->rewriteBaseUrl) {
+                return rtrim(Yii::$app->getHomeUrl(), '/').DIRECTORY_SEPARATOR
+                    .$lang.DIRECTORY_SEPARATOR
+                    .ltrim(parent::createUrl($params), Yii::$app->getHomeUrl().'/');
+            }
             return '/' . $lang . '/' . ltrim(parent::createUrl($params), '/');
         }
 

@@ -10,7 +10,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist pheme/yii2-i18n-url "*"
+php composer.phar require --prefer-dist pheme/yii2-i18n-url "dev-master"
 ```
 
 or add
@@ -33,6 +33,7 @@ In your configuration file, add or replace your UrlManager component:
 	'urlManager' => [
 		'class' => 'pheme\i18n\I18nUrlManager',
 		//'displaySourceLanguage' => true,
+		//'rewriteBaseUrl' => true,
 		//'languageParam' => 'lang',
 		'languages' => ['en', 'gr'],
 		'aliases' => [],
