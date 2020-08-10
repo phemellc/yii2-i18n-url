@@ -20,6 +20,11 @@ class LanguageSwitcher extends ButtonDropdown
      * @var string drop down button label
      */
     public $label = 'Language';
+    
+    /**
+     * override options style
+     */
+    public $options = ['class' => 'btn btn-link'];
 
     /**
      * Renders the language drop down if there are currently more than one languages in the app.
@@ -34,7 +39,13 @@ class LanguageSwitcher extends ButtonDropdown
             $currentUrl = preg_replace('/' . Yii::$app->language . '\//', '', Yii::$app->getRequest()->getUrl(), 1);
             $isAssociative = ArrayHelper::isAssociative($languages);
             foreach ($languages as $language => $code) {
-                $url = $code . $currentUrl;
+                if (Yii::$app->urlManager->rewriteBaseUrl) {
+                    $url = Yii::$app->getHomeUrl().$code;
+                    $url.= DIRECTORY_SEPARATOR.Yii::$app->controller->id;
+                    $url.= DIRECTORY_SEPARATOR.Yii::$app->controller->action->id;
+                } else {
+                    $url = $code . $currentUrl;   
+                }
                 if ($isAssociative) {
                     $item = ['label' => $language, 'url' => $url];
                 } else {
@@ -46,7 +57,7 @@ class LanguageSwitcher extends ButtonDropdown
                 $items[] = $item;
             }
             $this->dropdown['items'] = $items;
-            parent::run();
+            return parent::run();
         }
     }
 }
